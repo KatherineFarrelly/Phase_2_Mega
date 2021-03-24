@@ -8,6 +8,24 @@
  * the Automated Soil Weighing System.
  */
 
+ /*
+  * Patrick's Comments
+  * 
+  * ECE 484 Spring 2021
+  * 
+  * There are only two functions here. The setup sets up pins,
+  * sets the arm (but not the tray table for the smaples!) to the initial position,
+  * and starts up the serial comm port.
+  * 
+  * The loop checks for serial commands and runs them.
+  * 
+  * To Do:
+  * -change command scheme so that the arm position and tray position can be directly controlled
+  * -remove the 2D array, literally pointless
+  * -actually have the tray set to the correct height during setup
+  * 
+  */
+
 #include "pins_mega.h"
 #include "motors.h"
 #include "limitswitch.h"
@@ -22,7 +40,12 @@
     char serialtmp; //Serial input value
 
     int pos[PATHPOINTS][XY] = {{0,0},{1400,0},{3000,0}}; //2D array containing each point you want gantry to move to. Will be restricted by limit switch
-
+    
+    //Patrick's Comments - wait so every point for each sample is stored seperately? Why?
+    //IMO this should be moved to the actual UI, not something done on the robot.
+    //The robot can just move to positions commanded, it doesn't really need to store specific positions like this.
+    //This way if theres an issue with the robot moving to specific positions, it can be tuned on the UI params instead of having to fix the Arduino code.
+    
     int posIndex = 0; //Iterator through pos array
 
     int row = 0;
@@ -40,6 +63,9 @@ void setup() {
   delay(STARTUPDELAY);          //Startup pause to allow pins to settle outputs
   
   motorReset();                 //Resets motor position to back left
+  
+  //Patrick's Comments - this calls xPath and yPath for position 0.
+  
   x = INITIALPOSITION;          //Sets initial positions to 0
   y = INITIALPOSITION;
   
@@ -51,6 +77,7 @@ void setup() {
 //Main Loop
 void loop() {
 //Commands: c - calibrate, space - estop, s - start, h - home, p - pause, r - reset
+//Patrick's Comments - lol the code literally only implements two of these. I want a lot finer control than just these commands anyway.
   if(Serial.available()){
     char temp = Serial.read();
     if(temp == 's' || temp == 'S'){
@@ -61,7 +88,7 @@ void loop() {
         y = yPath(y,pos[posIndex][ARRAYYPOS]);
 
         //Tare
-        ZeroScales();
+        ZeroScales(); //Patrick's Comments - wait why are we taring EVERY SINGLE TIME WE TAKE A SAMPLE???????????????????????
         
         //Claw open
         OpenAllClaws();

@@ -7,6 +7,17 @@
  * to reading in the attached limit switches
  */
 
+/*
+ * Patrick's Comments
+ * 
+ * nothing to say here really it just bitmasks the switches.
+ * should probably remove the test code with the LED.
+ * I have no idea if all these switches actually work.
+ * 
+ * Using digitalRead is slow compared to reading port IO directly but it may not
+ * matter too much.
+ */
+ 
 #include <Arduino.h>
 #include "pins_mega.h"
 #include "motors.h"
