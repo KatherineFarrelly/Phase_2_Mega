@@ -144,7 +144,11 @@ void motor_pin_setup() {
     digitalWrite(X_EN,LOW); //Enables motor controller
     for(int x = 0; x < Steps; x++) {  //Loop that moves motor until limit switch is hit or step count is reached
       switches = readLimitSwitches();
+<<<<<<< Updated upstream
       if((switches & SWITCH2MASK) && !xDir) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
+=======
+      if((switches & SWITCH2MASK))
+>>>>>>> Stashed changes
       {
         setXRight();
         for(int i = 0; i < 300; i++){
@@ -155,7 +159,7 @@ void motor_pin_setup() {
         }
         return 0;
       }
-      else if((switches & SWITCH3MASK) && !xDir){
+      else if((switches & SWITCH3MASK)){
         setXLeft();
         for(int i = 0; i < 300; i++){
           digitalWrite(X_PUL,HIGH);
@@ -180,7 +184,7 @@ void motor_pin_setup() {
     digitalWrite(Y_EN,LOW);
     for(int y = 0; y < Steps; y++) {
       switches = readLimitSwitches();
-      if((switches & SWITCH5MASK) && yDir)
+      if((switches & SWITCH5MASK))
       {
         setYForward();
         for(int i = 0; i < 300; i++){
@@ -191,7 +195,7 @@ void motor_pin_setup() {
         }
         return 0;
       }
-      else if((switches & SWITCH6MASK) && !yDir)
+      else if((switches & SWITCH6MASK))
       {
         setYReverse();
         for(int i = 0; i < 300; i++){
@@ -216,7 +220,7 @@ void motor_pin_setup() {
     digitalWrite(Z1_EN,LOW);
     digitalWrite(Z2_EN,LOW);
     for(int z = 0; z < Steps; z++) {
-      if(readLimitSwitches())
+      if(readLimitSwitches()) //Patrick's Comments - this was clearly meant to be implemented as a way to zero the height.
       {
         //return 0;
       }
@@ -239,9 +243,13 @@ void motor_pin_setup() {
     setYReverse();
     int x = 1;
     int y = 1;
-    while(x != 0 && y != 0){
-      x = spin_X(RESETDISTANCE,500);
-      y = spin_Y(RESETDISTANCE,500);
+    while(x && y){
+      if(x){
+        x = spin_X(RESETDISTANCE,500);
+      }
+      if(y){
+        y = spin_Y(RESETDISTANCE,500);
+      }
   }
 }
 
