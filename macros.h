@@ -24,7 +24,7 @@
 
 //Motors
 #define STEPSPEED 500
-#define RESETDISTANCE 50
+#define RESETDISTANCE 1000
 #define MINSTEPS 0
 #define MOTORTESTDELAY 1000
 

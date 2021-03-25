@@ -29,6 +29,8 @@
   * This means we'll need a height zeroing routine for the tray table motor. This should be easy -
   * We can just move the tray table up until we see the claws can reach it, tell the robot to stop,
   * and set that as the calibration point. This is the main thing that needs to be added here.
+  * 
+  * X is forward/backward, Y is sideways
   */
 
 #include "motors.h"
@@ -144,11 +146,7 @@ void motor_pin_setup() {
     digitalWrite(X_EN,LOW); //Enables motor controller
     for(int x = 0; x < Steps; x++) {  //Loop that moves motor until limit switch is hit or step count is reached
       switches = readLimitSwitches();
-<<<<<<< Updated upstream
-      if((switches & SWITCH2MASK) && !xDir) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
-=======
-      if((switches & SWITCH2MASK))
->>>>>>> Stashed changes
+      if((switches & SWITCH4MASK)) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
       {
         setXRight();
         for(int i = 0; i < 300; i++){
@@ -243,7 +241,7 @@ void motor_pin_setup() {
     setYReverse();
     int x = 1;
     int y = 1;
-    while(x && y){
+    while(x || y){
       if(x){
         x = spin_X(RESETDISTANCE,500);
       }

@@ -48,7 +48,8 @@
     
     int posIndex = 0; //Iterator through pos array
 
-    int row = 0;
+    int row2 = 0;
+    int whatamidoing;
     
 // Put all setup functions here, to run once:
 void setup() { 
@@ -80,8 +81,48 @@ void loop() {
 //Patrick's Comments - lol the code literally only implements two of these. I want a lot finer control than just these commands anyway.
   if(Serial.available()){
     char temp = Serial.read();
-    if(temp == 's' || temp == 'S'){
-      while(row < 12){
+
+    switch(temp){
+      case 'i':
+        x = xPath(x, x+100);
+      break;
+
+      case 'k':
+        x = xPath(x, x-100);
+      break;
+
+      case 'j':
+        y = yPath(y, y+100);
+      break;
+
+      case 'l':
+        y = yPath(y, y-100);
+      break;
+
+      case 'u':
+      setZUp();
+      spin_Z(100,STEPSPEED);
+      break;
+
+      case 'o':
+      setZDown();
+      spin_Z(100,STEPSPEED);
+      break;
+
+      case 'y':
+      OpenAllClaws();
+      break;
+
+      case 'h':
+      CloseAllClaws();
+      break;
+      
+      default:
+
+      break;
+    }
+/*    if(temp == 's' || temp == 'S'){
+      while(row2 < 12){
         Serial.println("Points: " + sizeof(pos));
         //PathTracking
         x = xPath(x,pos[posIndex][ARRAYXPOS]);
@@ -129,13 +170,13 @@ void loop() {
           posIndex++;
         else{
           posIndex = 0;
-          row++;
+          row2++;
         }
       }
     }
     else if(temp == 'r'){
       //Resets motor positions
       motorReset();
-    }
+    }*/
   }
 }
