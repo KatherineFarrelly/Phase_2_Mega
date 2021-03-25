@@ -7,6 +7,30 @@
  * to driving the attached stepper motors through their external controllers
  */
 
+ /*
+  * Patrick's Comments
+  * 
+  * There's 5 functions of interest here. xPath and yPath (identical),
+  * Spin_X and Spin_Y (identical), and Spin_Z.
+  * All of these seem fine right now, but I don't think the way Spin_X and Spin_Y 
+  * handle limit switches can be trusted.
+  * If a limit switch is hit, the robot will move 300 steps in the opposite direction
+  * WHICH ARE NOT TRACKED by xPath and yPath afaik.
+  * 
+  * IMO at some point the return value of the xPath and yPath functions should be changed
+  * to reflect the actual number of steps the robot takes in Spin_X and Spin_Y.
+  * 
+  * ALSO, Spin_X and Spin_Y get called one at a time which seems slow. We should be able to 
+  * move both motors at the same time. Why don't we? Considering making this change as well.
+  * 
+  * NOTE: since the tray motor has no limit switches, Spin_Z is handled with no limit
+  * switch cases. This means we have no idea where the tray height is until we zero it ourselves.
+  * 
+  * This means we'll need a height zeroing routine for the tray table motor. This should be easy -
+  * We can just move the tray table up until we see the claws can reach it, tell the robot to stop,
+  * and set that as the calibration point. This is the main thing that needs to be added here.
+  */
+
 #include "motors.h"
 #include "pins_mega.h"
 #include "limitswitch.h"
@@ -77,11 +101,9 @@ void motor_pin_setup() {
         desiredPosition = XMAXSTEPS; //Max steps
       }
     }
-    
-    else{
-      // at position
-    }
-    return desiredPosition;
+    return desiredPosition; 
+    //Patrick's comments - both path functions return the position that was inputted to the function.
+    //I think this works fine.
   }
 
   // Y path tracking
@@ -111,10 +133,6 @@ void motor_pin_setup() {
         desiredPosition = YMAXSTEPS; //Max steps
       }
     }
-    
-    else{
-      // at position
-    }
     return desiredPosition;
   }
   
@@ -126,7 +144,11 @@ void motor_pin_setup() {
     digitalWrite(X_EN,LOW); //Enables motor controller
     for(int x = 0; x < Steps; x++) {  //Loop that moves motor until limit switch is hit or step count is reached
       switches = readLimitSwitches();
-      if((switches & SWITCH2MASK) && !xDir)
+<<<<<<< Updated upstream
+      if((switches & SWITCH2MASK) && !xDir) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
+=======
+      if((switches & SWITCH2MASK))
+>>>>>>> Stashed changes
       {
         setXRight();
         for(int i = 0; i < 300; i++){
@@ -137,7 +159,7 @@ void motor_pin_setup() {
         }
         return 0;
       }
-      else if((switches & SWITCH3MASK) && !xDir){
+      else if((switches & SWITCH3MASK)){
         setXLeft();
         for(int i = 0; i < 300; i++){
           digitalWrite(X_PUL,HIGH);
@@ -162,7 +184,7 @@ void motor_pin_setup() {
     digitalWrite(Y_EN,LOW);
     for(int y = 0; y < Steps; y++) {
       switches = readLimitSwitches();
-      if((switches & SWITCH5MASK) && yDir)
+      if((switches & SWITCH5MASK))
       {
         setYForward();
         for(int i = 0; i < 300; i++){
@@ -173,7 +195,7 @@ void motor_pin_setup() {
         }
         return 0;
       }
-      else if((switches & SWITCH6MASK) && !yDir)
+      else if((switches & SWITCH6MASK))
       {
         setYReverse();
         for(int i = 0; i < 300; i++){
@@ -198,7 +220,7 @@ void motor_pin_setup() {
     digitalWrite(Z1_EN,LOW);
     digitalWrite(Z2_EN,LOW);
     for(int z = 0; z < Steps; z++) {
-      if(readLimitSwitches())
+      if(readLimitSwitches()) //Patrick's Comments - this was clearly meant to be implemented as a way to zero the height.
       {
         //return 0;
       }
@@ -221,9 +243,13 @@ void motor_pin_setup() {
     setYReverse();
     int x = 1;
     int y = 1;
-    while(x != 0 && y != 0){
-      x = spin_X(RESETDISTANCE,500);
-      y = spin_Y(RESETDISTANCE,500);
+    while(x && y){
+      if(x){
+        x = spin_X(RESETDISTANCE,500);
+      }
+      if(y){
+        y = spin_Y(RESETDISTANCE,500);
+      }
   }
 }
 
