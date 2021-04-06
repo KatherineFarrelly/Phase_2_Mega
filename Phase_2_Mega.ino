@@ -49,13 +49,24 @@
     int posIndex = 0; //Iterator through pos array
 
     int row2 = 0;
-    int whatamidoing;
-    
+    int cmdvsval = 0;
+    char charstepnum[] = {0,0,0,0,0};
+    char command = 0;
+    int numsteps = 0;
+
 // Put all setup functions here, to run once:
 void setup() { 
   Serial.begin(SERIALBAUD);     //Begins serial connection
   Serial.println("Booting...");
-  
+  row2 = 0;
+  cmdvsval = 0;
+  charstepnum[0] = 0;
+  charstepnum[1] = 0;
+  charstepnum[2] = 0;
+  charstepnum[3] = 0;
+  charstepnum[4] = 0;
+  command = 0;
+  numsteps = 0;
   motor_pin_setup();            //Sets up all pins
   limitSwitchPinSetup();
   SolenoidPinSetup();
@@ -80,47 +91,76 @@ void loop() {
 //Commands: c - calibrate, space - estop, s - start, h - home, p - pause, r - reset
 //Patrick's Comments - lol the code literally only implements two of these. I want a lot finer control than just these commands anyway.
   if(Serial.available()){
-    char temp = Serial.read();
-
-    switch(temp){
+    if(!cmdvsval){
+      command = Serial.read();
+      cmdvsval = 1;
+    }else{
+      charstepnum[cmdvsval - 1] = Serial.read();
+      if(charstepnum[cmdvsval-1] < '0' || charstepnum[cmdvsval-1] > '9'){
+        charstepnum[cmdvsval-1] = 0;
+        strToInt();
+        cmdvsval = 0;
+      }else if(cmdvsval >= 5){
+        strToInt();
+        cmdvsval = 0;
+      }else{
+        cmdvsval++;
+      }
+    } 
+  }
+  if(numsteps){
+    switch(command){
       case 'i':
-        x = xPath(x, x+100);
+        x = xPath(x, x+numsteps);
       break;
-
+  
       case 'k':
-        x = xPath(x, x-100);
+        x = xPath(x, x-numsteps);
       break;
-
+  
       case 'j':
-        y = yPath(y, y+100);
+        y = yPath(y, y+numsteps);
       break;
-
+  
       case 'l':
-        y = yPath(y, y-100);
+        y = yPath(y, y-numsteps);
       break;
-
+  
       case 'u':
       setZUp();
-      spin_Z(100,STEPSPEED);
+      spin_Z(numsteps,STEPSPEED);
       break;
-
+  
       case 'o':
       setZDown();
-      spin_Z(100,STEPSPEED);
+      spin_Z(numsteps,STEPSPEED);
       break;
-
+  
       case 'y':
       OpenAllClaws();
       break;
-
+  
       case 'h':
       CloseAllClaws();
       break;
+  
+      case 'm':
+      ZeroScales();
+      break;
+  
+      case 'n':
+      CaptureWeight();
+      SingleWeight();
+      break;
       
       default:
-
+  
       break;
     }
+    numsteps = 0;
+    command = 0;
+  }
+  
 /*    if(temp == 's' || temp == 'S'){
       while(row2 < 12){
         Serial.println("Points: " + sizeof(pos));
@@ -178,5 +218,22 @@ void loop() {
       //Resets motor positions
       motorReset();
     }*/
+}
+
+void strToInt(){
+  int i = 0;
+  numsteps = 1;
+  if(!charstepnum[i]){
+    return;
+  }
+  while(i < 5){
+    if(charstepnum[i] != 0){
+      numsteps = numsteps * 10;
+      numsteps += (charstepnum[i] - '0');
+    }else{
+      return;
+    }
+    i++;
   }
 }
+
