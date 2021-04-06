@@ -146,25 +146,25 @@ void motor_pin_setup() {
     digitalWrite(X_EN,LOW); //Enables motor controller
     for(int x = 0; x < Steps; x++) {  //Loop that moves motor until limit switch is hit or step count is reached
       switches = readLimitSwitches();
-      if((switches & SWITCH4MASK)) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
+      if((switches & SWITCH4MASK) && !xDir) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
       {
-        setXRight();
+        /*setXRight();
         for(int i = 0; i < 300; i++){
           digitalWrite(X_PUL,HIGH);
           delayMicroseconds(Speed);
           digitalWrite(X_PUL,LOW);
           delayMicroseconds(Speed);
-        }
+        }*/
         return 0;
       }
-      else if((switches & SWITCH3MASK)){
-        setXLeft();
+      else if((switches & SWITCH3MASK) && xDir){
+        /*setXLeft();
         for(int i = 0; i < 300; i++){
           digitalWrite(X_PUL,HIGH);
           delayMicroseconds(Speed);
           digitalWrite(X_PUL,LOW);
           delayMicroseconds(Speed);
-        }
+        }*/
         return 0;
       }
       digitalWrite(X_PUL,HIGH);
@@ -182,26 +182,26 @@ void motor_pin_setup() {
     digitalWrite(Y_EN,LOW);
     for(int y = 0; y < Steps; y++) {
       switches = readLimitSwitches();
-      if((switches & SWITCH5MASK))
+      if((switches & SWITCH5MASK) && xDir)
       {
-        setYForward();
+        /*setYForward();
         for(int i = 0; i < 300; i++){
           digitalWrite(Y_PUL,HIGH);
           delayMicroseconds(Speed);
           digitalWrite(Y_PUL,LOW);
           delayMicroseconds(Speed);
-        }
+        }*/
         return 0;
       }
-      else if((switches & SWITCH6MASK))
+      else if((switches & SWITCH6MASK) && !xDir)
       {
-        setYReverse();
+        /*setYReverse();
         for(int i = 0; i < 300; i++){
           digitalWrite(Y_PUL,HIGH);
           delayMicroseconds(Speed);
           digitalWrite(Y_PUL,LOW);
           delayMicroseconds(Speed);
-        }
+        }*/
         return 0;
       }
       digitalWrite(Y_PUL,HIGH);
