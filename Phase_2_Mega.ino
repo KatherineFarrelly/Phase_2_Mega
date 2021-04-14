@@ -149,14 +149,14 @@ void loop() {
       break;
   
       case 'n':
-      CaptureWeight();
-      SingleWeight();
+      Serial.print('N');
       break;
       
       default:
   
       break;
     }
+    Serial.print('D');
     numsteps = 0;
     command = 0;
   }
@@ -226,6 +226,7 @@ void strToInt(){
   if(!charstepnum[i]){
     return;
   }
+  numsteps = 0;
   while(i < 5){
     if(charstepnum[i] != 0){
       numsteps = numsteps * 10;

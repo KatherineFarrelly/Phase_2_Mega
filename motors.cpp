@@ -182,7 +182,7 @@ void motor_pin_setup() {
     digitalWrite(Y_EN,LOW);
     for(int y = 0; y < Steps; y++) {
       switches = readLimitSwitches();
-      if((switches & SWITCH5MASK) && xDir)
+      if((switches & SWITCH5MASK) && yDir)
       {
         /*setYForward();
         for(int i = 0; i < 300; i++){
@@ -193,7 +193,7 @@ void motor_pin_setup() {
         }*/
         return 0;
       }
-      else if((switches & SWITCH6MASK) && !xDir)
+      else if((switches & SWITCH6MASK) && !yDir)
       {
         /*setYReverse();
         for(int i = 0; i < 300; i++){
