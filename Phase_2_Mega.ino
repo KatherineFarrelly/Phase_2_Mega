@@ -151,7 +151,11 @@ void loop() {
       case 'n':
       Serial.print('N');
       break;
-      
+
+      case 'r':
+      motorReset();
+      x = INITIALPOSITION;
+      y = INITIALPOSITION;
       default:
   
       break;
