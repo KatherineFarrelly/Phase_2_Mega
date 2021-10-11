@@ -1,6 +1,6 @@
 # Phase_2_Mega
  Arduino code for the Phase 2 of the Soil Robot Project
-# Okay so what is this
+# What is this code
 This code does a few things: <br>
 1. It reads all the sensors on the robot <br>
 2. It controls all the stepper motors on the robot <br>
