@@ -116,7 +116,7 @@ void motor_pin_setup() {
       // if limit switch hit, stop
       // once position is = intended or within threshold, stop
       
-      setYReverse;
+      setYReverse();
       int event = spin_Y(currentPosition-desiredPosition,STEPSPEED);
       if(!event){
         desiredPosition = MINSTEPS; //Min steps

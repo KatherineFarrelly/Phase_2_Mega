@@ -12,11 +12,8 @@
 
   void LoadCellSetup();
   void ZeroScales();
-  void CaptureWeight();
-  void ResetWeight();
-  void PrintWeight();
-  void SingleWeight();
+  void PrintZero();
 
-  void calibrate(double intendedWeight);
+  void calibrate(int loadcell);
 
 #endif

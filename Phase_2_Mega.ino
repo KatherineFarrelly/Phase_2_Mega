@@ -50,7 +50,7 @@
 
     int row2 = 0;
     int cmdvsval = 0;
-    char charstepnum[] = {0,0,0,0,0};
+    char charstepnum[] = {0,0,0,0,0,0,0,0,0,0};
     char command = 0;
     int numsteps = 0;
 
@@ -144,10 +144,6 @@ void loop() {
       CloseAllClaws();
       break;
   
-      case 'm':
-      ZeroScales();
-      break;
-  
       case 'n':
       Serial.print('N');
       break;
@@ -156,8 +152,20 @@ void loop() {
       motorReset();
       x = INITIALPOSITION;
       y = INITIALPOSITION;
+      break;
+
+      case 'z':
+      ZeroScales();
+      PrintZero();
+      Serial.print('N');
+      break;
+      
+      case 't':
+      calibrate(numsteps - 1);
+      Serial.print('N');
+      break;
+      
       default:
-  
       break;
     }
     Serial.print('D');
