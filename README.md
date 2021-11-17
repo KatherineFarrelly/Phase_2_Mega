@@ -9,3 +9,5 @@ This code does a few things: <br>
 5. It sends weight data from the soil samples on the robot back to the host computer. <br>
 # Hardware
 This code is meant to be uploaded to an Arduino Mega 2560.
+# Questions?
+If you have questions concerning modification or fixing of this code, contact Katherine Farrelly at KatFarrelly@protonmail.com
