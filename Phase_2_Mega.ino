@@ -9,7 +9,7 @@
  */
 
  /*
-  * Patrick's Comments
+  * Katherine's Comments
   * 
   * ECE 484 Spring 2021
   * 
@@ -39,12 +39,6 @@
     
     char serialtmp; //Serial input value
 
-    int pos[PATHPOINTS][XY] = {{0,0},{1400,0},{3000,0}}; //2D array containing each point you want gantry to move to. Will be restricted by limit switch
-    
-    //Patrick's Comments - wait so every point for each sample is stored seperately? Why?
-    //IMO this should be moved to the actual UI, not something done on the robot.
-    //The robot can just move to positions commanded, it doesn't really need to store specific positions like this.
-    //This way if theres an issue with the robot moving to specific positions, it can be tuned on the UI params instead of having to fix the Arduino code.
     
     int posIndex = 0; //Iterator through pos array
 
@@ -74,9 +68,7 @@ void setup() {
 
   delay(STARTUPDELAY);          //Startup pause to allow pins to settle outputs
   
-  motorReset();                 //Resets motor position to back left
-  
-  //Patrick's Comments - this calls xPath and yPath for position 0.
+  //Katherine's Comments - this calls xPath and yPath for position 0.
   
   x = INITIALPOSITION;          //Sets initial positions to 0
   y = INITIALPOSITION;
@@ -89,7 +81,7 @@ void setup() {
 //Main Loop
 void loop() {
 //Commands: c - calibrate, space - estop, s - start, h - home, p - pause, r - reset
-//Patrick's Comments - lol the code literally only implements two of these. I want a lot finer control than just these commands anyway.
+//Katherine's Comments - lol the code literally only implements two of these. I want a lot finer control than just these commands anyway.
   if(Serial.available()){
     if(!cmdvsval){
       command = Serial.read();
@@ -181,7 +173,7 @@ void loop() {
         y = yPath(y,pos[posIndex][ARRAYYPOS]);
 
         //Tare
-        ZeroScales(); //Patrick's Comments - wait why are we taring EVERY SINGLE TIME WE TAKE A SAMPLE???????????????????????
+        ZeroScales(); //Katherine's Comments - wait why are we taring EVERY SINGLE TIME WE TAKE A SAMPLE???????????????????????
         
         //Claw open
         OpenAllClaws();

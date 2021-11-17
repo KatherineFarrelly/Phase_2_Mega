@@ -8,7 +8,7 @@
  */
 
  /*
-  * Patrick's Comments
+  * Katherine's Comments
   * 
   * There's 5 functions of interest here. xPath and yPath (identical),
   * Spin_X and Spin_Y (identical), and Spin_Z.
@@ -104,7 +104,7 @@ void motor_pin_setup() {
       }
     }
     return desiredPosition; 
-    //Patrick's comments - both path functions return the position that was inputted to the function.
+    //Katherine's comments - both path functions return the position that was inputted to the function.
     //I think this works fine.
   }
 
@@ -146,7 +146,7 @@ void motor_pin_setup() {
     digitalWrite(X_EN,LOW); //Enables motor controller
     for(int x = 0; x < Steps; x++) {  //Loop that moves motor until limit switch is hit or step count is reached
       switches = readLimitSwitches();
-      if((switches & SWITCH4MASK) && !xDir) //Patrick's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
+      if((switches & SWITCH4MASK) && !xDir) //Katherine's Comments - these two if statements check if a switch was hit. Otherwise, it just moves to the specified position.
       {
         /*setXRight();
         for(int i = 0; i < 300; i++){
@@ -218,7 +218,7 @@ void motor_pin_setup() {
     digitalWrite(Z1_EN,LOW);
     digitalWrite(Z2_EN,LOW);
     for(int z = 0; z < Steps; z++) {
-      if(readLimitSwitches()) //Patrick's Comments - this was clearly meant to be implemented as a way to zero the height.
+      if(readLimitSwitches()) //Katherine's Comments - this was clearly meant to be implemented as a way to zero the height.
       {
         //return 0;
       }

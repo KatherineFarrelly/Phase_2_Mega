@@ -8,7 +8,7 @@
  */
 
 /*
- * Patrick's Comments
+ * Katherine's Comments
  * 
  * nothing to say here really it just bitmasks the switches.
  * should probably remove the test code with the LED.
