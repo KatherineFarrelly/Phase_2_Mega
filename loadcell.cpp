@@ -2,6 +2,7 @@
  * This is the load cell implementation file for the Automated Soil Weighing System
  * ECE 485 002
  * Cole Craft
+ * Rewritten by Katherine Farrelly
  * 
  * Description: This file contains the functions pertaining
  * to setting up and using the load cell for weight measurements.

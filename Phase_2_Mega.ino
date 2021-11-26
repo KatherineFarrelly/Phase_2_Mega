@@ -3,6 +3,7 @@
  * This is the main loop for the Automated Soil Weighing System
  * ECE 485 002
  * Cole Craft / Jordan Boerger
+ * Rewritten by Katherine Farrelly
  * 
  * Description: This file contains the main loop used to control
  * the Automated Soil Weighing System.

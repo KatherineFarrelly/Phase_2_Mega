@@ -2,6 +2,7 @@
  * This is the limit switch implementation file for the Automated Soil Weighing System
  * ECE 485 002
  * Jordan Boerger
+ * Refactored by Katherine Farrelly
  * 
  * Description: This file contains the functions pertaining
  * to reading in the attached limit switches

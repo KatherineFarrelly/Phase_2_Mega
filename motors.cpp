@@ -2,6 +2,7 @@
  * This is the motor implementation file for the Automated Soil Weighing System
  * ECE 485 002
  * Cole Craft
+ * Refactored by Katherine Farrelly
  * 
  * Description: This file contains the functions pertaining
  * to driving the attached stepper motors through their external controllers
