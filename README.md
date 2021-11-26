@@ -1,5 +1,5 @@
 # Phase_2_Mega
- Arduino code for the Phase 2 of the Soil Robot Project
+ Arduino code for the Phase 2 of the Soil Robot Project for the NC Agronomics Division.
 # What is this code
 This code does a few things: <br>
 1. It reads all the sensors on the robot <br>
